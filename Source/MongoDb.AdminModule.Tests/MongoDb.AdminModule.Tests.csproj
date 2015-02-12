@@ -122,6 +122,9 @@
     <EmbeddedResource Include="Scripts\InstallDatabase.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\default.licenseheader">
+      <Link>default.licenseheader</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
