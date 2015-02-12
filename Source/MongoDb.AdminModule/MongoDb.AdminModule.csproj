@@ -34,7 +34,7 @@
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="IdentityServer.Core.MongoDb">
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.1.1.0-alpha-1\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
+      <HintPath>..\packages\IdentityServer.v3.MongoDb.1.1.0-rc\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
     </Reference>
     <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=1.1.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
