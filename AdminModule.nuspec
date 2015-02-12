@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/jageall/IdentityServer.v3.MongoDb</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Powershell module for admin tasks for IdentityServer.v3.MongoDb persistence</description>
-    <copyright>Copyright 2014</copyright>
+    <copyright>Copyright 2014 - 2015</copyright>
     <tags>IdentityServer MongoDb Powershell</tags>
   </metadata>
   <files>

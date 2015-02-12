@@ -35,8 +35,9 @@
     <Reference Include="IdentityServer.Core.MongoDb">
       <HintPath>..\packages\IdentityServer.v3.MongoDb.1.1.0-alpha-1\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer.v3.Admin.MongoDb">
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.1.1.0-alpha-1\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
+    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=1.1.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.1.1.0-rc-1\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.10.0\lib\net35\MongoDB.Bson.dll</HintPath>
