@@ -20,11 +20,11 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class InstallDatabase : IClassFixture<PowershellAdminModuleFixture>
+    public class InstallDatabase : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly PowerShell _ps;
-        private readonly string _database;
-        private readonly MongoServer _server;
+        private PowerShell _ps;
+        private string _database;
+        private MongoServer _server;
 
         [Fact]
         public void CreateDatabase()
@@ -44,7 +44,7 @@ namespace MongoDb.AdminModule.Tests
             _server.DropDatabase(_database);
         }
 
-        public InstallDatabase(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             var script = data.LoadScript(this);

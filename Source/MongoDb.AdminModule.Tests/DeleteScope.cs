@@ -21,10 +21,10 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteScope : IClassFixture<PowershellAdminModuleFixture>
+    public class DeleteScope : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly IScopeStore _scopeStore;
-        private readonly PowerShell _ps;
+        private IScopeStore _scopeStore;
+        private PowerShell _ps;
         private const string ScopeName = "removethisscope";
 
         [Fact]
@@ -35,7 +35,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Empty(_scopeStore.FindScopesAsync(new[] { ScopeName }).Result);
         }
 
-        public DeleteScope(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             var admin = data.Factory.Resolve<IAdminService>();
             Scope scope = TestData.ScopeMandatoryProperties();

@@ -22,11 +22,11 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddBuiltInScopes : IClassFixture<PowershellAdminModuleFixture>
+    public class AddBuiltInScopes : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly IScopeStore _scopeStore;
-        private readonly PowerShell _ps;
-        private readonly PowershellAdminModuleFixture _data;
+        private IScopeStore _scopeStore;
+        private PowerShell _ps;
+        private PowershellAdminModuleFixture _data;
 
         [Fact]
         public void VerifyAllBuiltInScopes()
@@ -43,7 +43,7 @@ namespace MongoDb.AdminModule.Tests
                 );
         }
 
-        public AddBuiltInScopes(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;

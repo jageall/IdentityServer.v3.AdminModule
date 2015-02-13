@@ -22,10 +22,10 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpTokenHandles : IClassFixture<PowershellAdminModuleFixture>
+    public class CleanUpTokenHandles : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly PowerShell _ps;
-        private readonly ITokenHandleStore _thStore;
+        private PowerShell _ps;
+        private ITokenHandleStore _thStore;
         private const string Subject = "expired";
 
 
@@ -41,7 +41,7 @@ namespace MongoDb.AdminModule.Tests
 
         }
 
-        public CleanUpTokenHandles(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             var script = data.LoadScript(this);

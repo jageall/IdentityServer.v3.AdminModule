@@ -22,7 +22,7 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpAuthorizationCodes : IClassFixture<PowershellAdminModuleFixture>
+    public class CleanUpAuthorizationCodes : IUseFixture<PowershellAdminModuleFixture>
     {
         private PowerShell _ps;
         private string _script;
@@ -43,7 +43,7 @@ namespace MongoDb.AdminModule.Tests
             
         }
 
-        public CleanUpAuthorizationCodes(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             _script = data.LoadScript(this);

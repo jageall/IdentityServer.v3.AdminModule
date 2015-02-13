@@ -20,11 +20,11 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteDatabase : IClassFixture<PowershellAdminModuleFixture>
+    public class DeleteDatabase : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly string _database;
-        private readonly MongoServer _server;
-        private readonly PowerShell _ps;
+        private string _database;
+        private MongoServer _server;
+        private PowerShell _ps;
 
         [Fact]
         public void DatabaseShouldBeDeleted()
@@ -34,7 +34,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.False(_server.DatabaseExists(_database));
         }
 
-        public DeleteDatabase(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             var admin = data.Factory.Resolve<IAdminService>();
             admin.CreateDatabase();

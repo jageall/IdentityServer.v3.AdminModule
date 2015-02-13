@@ -22,10 +22,10 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddScope : IClassFixture<PowershellAdminModuleFixture>
+    public class AddScope : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly PowerShell _ps;
-        private readonly IScopeStore _scopeStore;
+        private PowerShell _ps;
+        private IScopeStore _scopeStore;
 
         [Fact]
         public void VerifyAdd()
@@ -60,7 +60,7 @@ namespace MongoDb.AdminModule.Tests
 
         }
 
-        public AddScope(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             var script = data.LoadScript(this);

@@ -20,13 +20,13 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteClient : IClassFixture<PowershellAdminModuleFixture>
+    public class DeleteClient : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly PowershellAdminModuleFixture _data;
-        private readonly PowerShell _ps;
+        private PowershellAdminModuleFixture _data;
+        private PowerShell _ps;
         
-        private readonly IClientStore _store;
-        private readonly string _clientId;
+        private IClientStore _store;
+        private string _clientId;
 
         [Fact]
         public void RemoveClient()
@@ -39,7 +39,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Null(_store.FindClientByIdAsync(_clientId).Result);
         }
 
-        public DeleteClient(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;

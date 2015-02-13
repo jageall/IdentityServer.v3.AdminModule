@@ -25,11 +25,11 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddClient : IClassFixture<PowershellAdminModuleFixture>
+    public class AddClient : IUseFixture<PowershellAdminModuleFixture>
     {
-        private readonly PowershellAdminModuleFixture _data;
-        private readonly PowerShell _ps;
-        private readonly IClientStore _store;
+        private PowershellAdminModuleFixture _data;
+        private PowerShell _ps;
+        private IClientStore _store;
 
         [Fact]
         public void CheckClient()
@@ -73,7 +73,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal(new List<Claim> { new Claim("claimtype1", "claimvalue1"), new Claim("claimtype2", "claimvalue2"), }.Select(TestData.ToTestableString), client.Claims.Select(TestData.ToTestableString));
         }
 
-        public AddClient(PowershellAdminModuleFixture data)
+        public void SetFixture(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;
