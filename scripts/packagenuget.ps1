@@ -5,5 +5,5 @@ if($env:APPVEYOR_REPO_TAG -eq 'True'){
   $version = $env:APPVEYOR_REPO_BRANCH
 }
 #Nuget packages created every build for inspection before publishing
-nuget pack core.nuspec -version $version
+
 nuget pack AdminModule.nuspec -version $version
