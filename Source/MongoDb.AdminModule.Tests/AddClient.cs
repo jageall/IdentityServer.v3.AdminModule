@@ -71,6 +71,9 @@ namespace MongoDb.AdminModule.Tests
             Assert.True(client.PrefixClientClaims);         
             Assert.True(client.IncludeJwtId);
             Assert.Equal(new List<Claim> { new Claim("claimtype1", "claimvalue1"), new Claim("claimtype2", "claimvalue2"), }.Select(TestData.ToTestableString), client.Claims.Select(TestData.ToTestableString));
+            Assert.True(client.AllowClientCredentialsOnly);
+            Assert.True(client.UpdateAccessTokenClaimsOnRefresh);
+            Assert.Equal(new List<string>{"cors1", "cors2", "cors3"}, client.AllowedCorsOrigins);
         }
 
         public void SetFixture(PowershellAdminModuleFixture data)

@@ -98,6 +98,15 @@ namespace IdentityServer.MongoDb.AdminModule
         [Parameter]
         public Claim[] Claims { get; set; }
 
+        [Parameter]
+        public bool? AllowClientCredentialsOnly { get; set; }
+
+        [Parameter]
+        public bool? UpdateAccessTokenClaimsOnRefresh { get; set; }
+
+        [Parameter]
+        public string[] AllowedCorsOrigins { get; set; }
+
         protected override void ProcessRecord()
         {
             var client = new Client() { ClientId = ClientId, ClientName = ClientName };
@@ -132,6 +141,11 @@ namespace IdentityServer.MongoDb.AdminModule
             client.PrefixClientClaims = PrefixClientClaims.GetValueOrDefault(client.PrefixClientClaims);
             client.Claims.AddRange((Claims ?? new Claim[]{}));
             client.CustomGrantTypeRestrictions.AddRange((CustomGrantTypeRestrictions ?? new string[]{}));
+            client.AllowClientCredentialsOnly =
+                AllowClientCredentialsOnly.GetValueOrDefault(client.AllowClientCredentialsOnly);
+            client.AllowedCorsOrigins.AddRange(AllowedCorsOrigins ?? new String[]{});
+            client.UpdateAccessTokenClaimsOnRefresh =
+                UpdateAccessTokenClaimsOnRefresh.GetValueOrDefault(client.UpdateAccessTokenClaimsOnRefresh);
             WriteObject(client);
         }
     }
