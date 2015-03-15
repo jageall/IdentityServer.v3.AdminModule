@@ -71,7 +71,7 @@ namespace IdentityServer.MongoDb.AdminModule
 
         protected override void BeginProcessing()
         {
-            var storeSettings = ServiceFactory.DefaultStoreSettings();
+            var storeSettings = StoreSettings.DefaultSettings();
             storeSettings.ConnectionString = ConnectionString ?? storeSettings.ConnectionString;
             storeSettings.Database = Database ?? storeSettings.Database;
             storeSettings.ClientCollection = ClientCollection ?? storeSettings.ClientCollection;

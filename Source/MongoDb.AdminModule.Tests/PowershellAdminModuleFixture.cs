@@ -39,7 +39,7 @@ namespace MongoDb.AdminModule.Tests
             _database = Guid.NewGuid().ToString("N");
             var client = new MongoClient("mongodb://localhost");
             _server = client.GetServer();
-            var settings = ServiceFactory.DefaultStoreSettings();
+            var settings = StoreSettings.DefaultSettings();
             settings.Database = _database;
             _factory = new Factory(new ServiceFactory(null, settings), new AdminServiceRegistry());            
         }

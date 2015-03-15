@@ -29,7 +29,7 @@ namespace MongoDb.AdminModule.Tests
         [Fact]
         public void CreateDatabase()
         {
-            var defaults = ServiceFactory.DefaultStoreSettings();
+            var defaults = StoreSettings.DefaultSettings();
             Assert.False(_server.DatabaseExists(_database));
             _ps.Invoke();
             Assert.True(_server.DatabaseExists(_database));
