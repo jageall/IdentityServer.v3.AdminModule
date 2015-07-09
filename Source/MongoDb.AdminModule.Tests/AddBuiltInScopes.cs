@@ -15,6 +15,8 @@
  */
 using System.Linq;
 using System.Management.Automation;
+using System.Threading.Tasks;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
@@ -22,15 +24,17 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddBuiltInScopes : IUseFixture<PowershellAdminModuleFixture>
+    public class AddBuiltInScopes : IClassFixture<PowershellAdminModuleFixture>
     {
         private IScopeStore _scopeStore;
         private PowerShell _ps;
         private PowershellAdminModuleFixture _data;
+        private Task _setup;
 
         [Fact]
-        public void VerifyAllBuiltInScopes()
+        public async Task VerifyAllBuiltInScopes()
         {
+            await _setup;
             _ps.Invoke();
             Assert.Null(_data.GetPowershellErrors());
             Assert.Equal(
@@ -43,7 +47,7 @@ namespace MongoDb.AdminModule.Tests
                 );
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public AddBuiltInScopes(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;
@@ -52,7 +56,7 @@ namespace MongoDb.AdminModule.Tests
             _ps.AddScript(script).AddParameter("Database", database);
             _scopeStore = data.Factory.Resolve<IScopeStore>();
             var adminService = data.Factory.Resolve<IAdminService>();
-            adminService.CreateDatabase();
+            _setup = adminService.CreateDatabase();
         }
     }
 }

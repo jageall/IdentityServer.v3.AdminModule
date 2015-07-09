@@ -22,6 +22,7 @@ using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using MongoDB.Driver;
+using Thinktecture.IdentityServer.Core.Configuration;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -29,7 +30,7 @@ namespace MongoDb.AdminModule.Tests
     {
         private readonly PowerShell _powerShell;
         private readonly string _database;
-        private readonly MongoServer _server;
+        private readonly IMongoClient _client;
         private readonly Factory _factory;
 
         public PowershellAdminModuleFixture()
@@ -37,11 +38,14 @@ namespace MongoDb.AdminModule.Tests
             _powerShell = PowerShell.Create();
             _powerShell.AddCommand("Import-Module").AddParameter("Name", typeof(CreateScope).Assembly.Location);
             _database = Guid.NewGuid().ToString("N");
-            var client = new MongoClient("mongodb://localhost");
-            _server = client.GetServer();
+            
             var settings = StoreSettings.DefaultSettings();
             settings.Database = _database;
-            _factory = new Factory(new ServiceFactory(null, settings), new AdminServiceRegistry());            
+            var config = new ServiceFactory(null, settings);
+            config.Register(new Registration<IMongoClient>(new MongoClient("mongodb://localhost")));
+            _factory = new Factory(config, 
+                new AdminServiceRegistry());
+            _client = _factory.Resolve<IMongoClient>();
         }
 
         public PowerShell PowerShell
@@ -54,9 +58,9 @@ namespace MongoDb.AdminModule.Tests
             get { return _database; }
         }
 
-        public MongoServer Server
+        public IMongoClient Client
         {
-            get { return _server; }
+            get { return _client; }
         }
 
         public Factory Factory
@@ -68,8 +72,8 @@ namespace MongoDb.AdminModule.Tests
         {
             var failed = GetPowershellErrors();
             PowerShell.Dispose();
-            if (_server.DatabaseExists(Database))
-                _server.DropDatabase(Database);
+            if (_client.DatabaseExistsAsync(Database).Result)
+                _client.DropDatabaseAsync(Database).Wait();
 
             //var dbns = _server.GetDatabaseNames();
             //foreach (var dbn in dbns)

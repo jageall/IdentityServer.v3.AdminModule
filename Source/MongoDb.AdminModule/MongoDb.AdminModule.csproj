@@ -33,13 +33,13 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer.Core.MongoDb, Version=1.3.0.102, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="IdentityServer.Core.MongoDb, Version=1.6.1.120, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.1.3.0\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
+      <HintPath>..\packages\IdentityServer.v3.MongoDb.1.6.1\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=1.3.0.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=2.0.0.23, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.1.3.0\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
+      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.2.0.0\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,9 +57,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.3.0\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.6.2\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,7 @@
     <Compile Include="Factory.cs" />
     <Compile Include="HashType.cs" />
     <Compile Include="InstallDatabase.cs" />
+    <Compile Include="MongoClientExtensions.cs" />
     <Compile Include="MongoCmdlet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadScopes.cs" />

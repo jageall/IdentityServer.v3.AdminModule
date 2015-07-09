@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 using System.Management.Automation;
+using System.Threading.Tasks;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
+using IdentityServer.MongoDb.AdminModule;
 using MongoDB.Driver;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteDatabase : IUseFixture<PowershellAdminModuleFixture>
+    public class DeleteDatabase : IClassFixture<PowershellAdminModuleFixture>
     {
         private string _database;
-        private MongoServer _server;
+        private IMongoClient _server;
         private PowerShell _ps;
 
         [Fact]
-        public void DatabaseShouldBeDeleted()
+        public async Task DatabaseShouldBeDeleted()
         {
-            Assert.True(_server.DatabaseExists(_database));
+            Assert.True(await _server.DatabaseExistsAsync(_database));
             _ps.Invoke();
-            Assert.False(_server.DatabaseExists(_database));
+            Assert.False(await _server.DatabaseExistsAsync(_database));
         }
 
         public void SetFixture(PowershellAdminModuleFixture data)
@@ -40,7 +43,7 @@ namespace MongoDb.AdminModule.Tests
             admin.CreateDatabase();
             _ps = data.PowerShell;
             _database = data.Database;
-            _server = data.Server; 
+            _server = data.Client; 
             var script = data.LoadScript(this);
             _ps.AddScript(script).AddParameter("Database", _database);
            

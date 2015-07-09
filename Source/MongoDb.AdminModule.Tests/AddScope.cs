@@ -15,6 +15,7 @@
  */
 using System.Linq;
 using System.Management.Automation;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
@@ -22,7 +23,7 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddScope : IUseFixture<PowershellAdminModuleFixture>
+    public class AddScope : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowerShell _ps;
         private IScopeStore _scopeStore;

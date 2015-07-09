@@ -15,33 +15,34 @@
  */
 using System.Management.Automation;
 using IdentityServer.Core.MongoDb;
+using IdentityServer.MongoDb.AdminModule;
 using MongoDB.Driver;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class InstallDatabase : IUseFixture<PowershellAdminModuleFixture>
+    public class InstallDatabase : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowerShell _ps;
         private string _database;
-        private MongoServer _server;
+        private IMongoClient _client;
 
         [Fact]
         public void CreateDatabase()
         {
             var defaults = StoreSettings.DefaultSettings();
-            Assert.False(_server.DatabaseExists(_database));
+            Assert.False(_client.DatabaseExistsAsync(_database).Result);
             _ps.Invoke();
-            Assert.True(_server.DatabaseExists(_database));
-            var db = _server.GetDatabase(_database);
-            Assert.True(db.CollectionExists(defaults.AuthorizationCodeCollection));
-            Assert.True(db.CollectionExists(defaults.ClientCollection));
-            Assert.True(db.CollectionExists(defaults.ConsentCollection));
-            Assert.True(db.CollectionExists(defaults.RefreshTokenCollection));
-            Assert.True(db.CollectionExists(defaults.ScopeCollection));
-            Assert.True(db.CollectionExists(defaults.TokenHandleCollection));
+            Assert.True(_client.DatabaseExistsAsync(_database).Result);
+            var db = _client.GetDatabase(_database);
+            Assert.True(db.CollectionExistsAsync(defaults.AuthorizationCodeCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.ClientCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.ConsentCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.RefreshTokenCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.ScopeCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.TokenHandleCollection).Result);
             //TODO: verify indexes maybe?
-            _server.DropDatabase(_database);
+            _client.DropDatabaseAsync(_database).Wait();
         }
 
         public void SetFixture(PowershellAdminModuleFixture data)
@@ -50,7 +51,7 @@ namespace MongoDb.AdminModule.Tests
             var script = data.LoadScript(this);
             _database = data.Database;
             _ps.AddScript(script).AddParameter("Database", _database);
-            _server = data.Server;
+            _client = data.Client;
         }
     }
 }

@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
@@ -25,15 +27,21 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddClient : IUseFixture<PowershellAdminModuleFixture>
+    public class AddClient : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowershellAdminModuleFixture _data;
         private PowerShell _ps;
         private IClientStore _store;
+        private readonly Task _setup;
 
-        [Fact]
-        public void CheckClient()
+        public AddClient(PowershellAdminModuleFixture data)
         {
+            _setup = Setup(data);
+        }
+        [Fact]
+        public async Task CheckClient()
+        {
+            await _setup;
             _ps.Invoke();
             Assert.Null(_data.GetPowershellErrors());
             var client = _store.FindClientByIdAsync("test").Result;
@@ -76,7 +84,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal(new List<string>{"cors1", "cors2", "cors3"}, client.AllowedCorsOrigins);
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public async Task Setup(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;
@@ -84,7 +92,7 @@ namespace MongoDb.AdminModule.Tests
             _ps.AddScript(data.LoadScript(this)).AddParameter("Database", database);
             _store = data.Factory.Resolve<IClientStore>();
             var adminService = data.Factory.Resolve<IAdminService>();
-            adminService.CreateDatabase();
+            await adminService.CreateDatabase();
         }
     }
 }

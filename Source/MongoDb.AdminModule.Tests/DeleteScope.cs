@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 using System.Management.Automation;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
@@ -21,7 +22,7 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteScope : IUseFixture<PowershellAdminModuleFixture>
+    public class DeleteScope : IClassFixture<PowershellAdminModuleFixture>
     {
         private IScopeStore _scopeStore;
         private PowerShell _ps;

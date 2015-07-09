@@ -15,6 +15,7 @@
  */
 using System.Linq;
 using System.Management.Automation;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
@@ -22,7 +23,7 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpTokenHandles : IUseFixture<PowershellAdminModuleFixture>
+    public class CleanUpTokenHandles : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowerShell _ps;
         private ITokenHandleStore _thStore;
@@ -48,7 +49,7 @@ namespace MongoDb.AdminModule.Tests
             var database = data.Database;
             _ps.AddScript(script).AddParameter("Database", database);
             var adminService = data.Factory.Resolve<IAdminService>();
-            adminService.CreateDatabase(expireUsingIndex: false);
+            adminService.CreateDatabase(expireUsingIndex: false).Wait();
             _thStore = data.Factory.Resolve<ITokenHandleStore>();
             AddExpiredTokens(data.Factory);
         }

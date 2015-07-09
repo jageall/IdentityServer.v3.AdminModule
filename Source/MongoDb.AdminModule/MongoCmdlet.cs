@@ -93,8 +93,8 @@ namespace IdentityServer.MongoDb.AdminModule
         void CanCreateDatabase(StoreSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
-            var server = client.GetServer();
-            if (!server.DatabaseExists(settings.Database) && !_createDb) throw new InvalidOperationException("Database does not exist");
+            
+            if (client.DatabaseExistsAsync(settings.Database).Result && !_createDb) throw new InvalidOperationException("Database does not exist");
         }
     }
 }

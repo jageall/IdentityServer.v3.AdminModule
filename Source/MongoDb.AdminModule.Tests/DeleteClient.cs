@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 using System.Management.Automation;
-using IdentityServer.Core.MongoDb;
+using IdentityServer.Admin.MongoDb;
 using Thinktecture.IdentityServer.Core.Services;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteClient : IUseFixture<PowershellAdminModuleFixture>
+    public class DeleteClient : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowershellAdminModuleFixture _data;
         private PowerShell _ps;

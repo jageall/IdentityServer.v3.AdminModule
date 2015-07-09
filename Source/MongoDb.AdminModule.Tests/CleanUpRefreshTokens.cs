@@ -15,6 +15,7 @@
  */
 using System.Linq;
 using System.Management.Automation;
+using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
@@ -22,7 +23,7 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpRefreshTokens : IUseFixture<PowershellAdminModuleFixture>
+    public class CleanUpRefreshTokens : IClassFixture<PowershellAdminModuleFixture>
     {
         private PowerShell _ps;
         private IRefreshTokenStore _rtStore;
