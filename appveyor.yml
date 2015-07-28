@@ -9,6 +9,9 @@ assembly_info:
 
 configuration: Release
 
+environment:
+  idsvr_mongodb_no_teardown: "true"
+
 install:
   - ps: .\scripts\install.ps1
 

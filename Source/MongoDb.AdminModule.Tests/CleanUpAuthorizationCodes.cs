@@ -20,6 +20,7 @@ using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -30,11 +31,12 @@ namespace MongoDb.AdminModule.Tests
         private string _database;
         private IAuthorizationCodeStore _acStore;
         private const string Subject = "expired";
-
+        Task _setup;
 
         [Fact]
-        public void AuthorizationCodesAreDeleted()
+        public async Task AuthorizationCodesAreDeleted()
         {
+            await _setup;
             Assert.NotEmpty(_acStore.GetAllAsync(Subject).Result);
             _ps.Invoke();
 
@@ -50,23 +52,24 @@ namespace MongoDb.AdminModule.Tests
             _script = data.LoadScript(this);
             _database = data.Database;
             _ps.AddScript(_script).AddParameter("Database", _database);
-            var adminService = data.Factory.Resolve<IAdminService>();
-            adminService.CreateDatabase(expireUsingIndex: false);
             _acStore = data.Factory.Resolve<IAuthorizationCodeStore>();
-            AddExpiredTokens(data.Factory);
+            _setup = Setup(data.Factory);
         }
 
-        private void AddExpiredTokens(Factory factory)
+        private async Task Setup(Factory factory)
         {
             
             var admin = factory.Resolve<IAdminService>();
             var code = TestData.AuthorizationCode(Subject);
-            admin.Save(code.Client);
+            
+            await admin.CreateDatabase(expireUsingIndex: false);
+            
+            await admin.Save(code.Client);
             foreach (var scope in code.RequestedScopes)
             {
-                admin.Save(scope);
+                await admin.Save(scope);
             }
-            _acStore.StoreAsync("ac", code).Wait();
+            await _acStore.StoreAsync("ac", code);
 
 
         }

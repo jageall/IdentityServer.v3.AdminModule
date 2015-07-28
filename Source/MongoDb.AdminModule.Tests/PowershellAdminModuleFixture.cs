@@ -71,15 +71,17 @@ namespace MongoDb.AdminModule.Tests
         {
             var failed = GetPowershellErrors();
             PowerShell.Dispose();
-            if (_client.DatabaseExistsAsync(Database).Result)
-                _client.DropDatabaseAsync(Database).Wait();
-
-            //var dbns = _server.GetDatabaseNames();
+            if (Environment.GetEnvironmentVariable("idsvr_mongodb_no_teardown") == null)
+            {
+                if (_client.DatabaseExistsAsync(Database).Result)
+                    _client.DropDatabaseAsync(Database).Wait();
+            }
+            //var dbns = _client.ListDatabasesAsync().Result.ToListAsync().Result.Select(x=>x["name"].AsString);
             //foreach (var dbn in dbns)
             //{
             //    Guid ignored;
             //    if (Guid.TryParse(dbn, out ignored))
-            //        _server.DropDatabase(dbn);
+            //        _client.DropDatabaseAsync(dbn).Wait();
             //}
 
             if (failed != null) throw failed;

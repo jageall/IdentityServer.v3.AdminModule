@@ -18,6 +18,7 @@ using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using MongoDB.Driver;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -28,21 +29,21 @@ namespace MongoDb.AdminModule.Tests
         private readonly IMongoClient _client;
 
         [Fact]
-        public void CreateDatabase()
+        public async Task CreateDatabase()
         {
             var defaults = StoreSettings.DefaultSettings();
-            Assert.False(_client.DatabaseExistsAsync(_database).Result);
+            Assert.False(await _client.DatabaseExistsAsync(_database));
             _ps.Invoke();
-            Assert.True(_client.DatabaseExistsAsync(_database).Result);
+            Assert.True(await _client.DatabaseExistsAsync(_database));
             var db = _client.GetDatabase(_database);
-            Assert.True(db.CollectionExistsAsync(defaults.AuthorizationCodeCollection).Result,"Authoriz");
-            Assert.True(db.CollectionExistsAsync(defaults.ClientCollection).Result);
-            Assert.True(db.CollectionExistsAsync(defaults.ConsentCollection).Result);
-            Assert.True(db.CollectionExistsAsync(defaults.RefreshTokenCollection).Result);
-            Assert.True(db.CollectionExistsAsync(defaults.ScopeCollection).Result);
-            Assert.True(db.CollectionExistsAsync(defaults.TokenHandleCollection).Result);
-            //TODO: verify indexes maybe?
-            _client.DropDatabaseAsync(_database).Wait();
+            Assert.True(await db.CollectionExistsAsync(defaults.AuthorizationCodeCollection),"Authoriz");
+            Assert.True(await db.CollectionExistsAsync(defaults.ClientCollection));
+            Assert.True(await db.CollectionExistsAsync(defaults.ConsentCollection));
+            Assert.True(await db.CollectionExistsAsync(defaults.RefreshTokenCollection));
+            Assert.True(await db.CollectionExistsAsync(defaults.ScopeCollection));
+            Assert.True(await db.CollectionExistsAsync(defaults.TokenHandleCollection));
+            
+            await _client.DropDatabaseAsync(_database);
         }
 
         public InstallDatabase(PowershellAdminModuleFixture data)

@@ -20,6 +20,7 @@ using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -28,11 +29,12 @@ namespace MongoDb.AdminModule.Tests
         private PowerShell _ps;
         private IRefreshTokenStore _rtStore;
         private const string Subject = "expired";
-
+        Task _setup;
 
         [Fact]
-        public void RefreshTokensAreDeleted()
+        public async Task RefreshTokensAreDeleted()
         {
+            await _setup;
             Assert.NotEmpty(_rtStore.GetAllAsync(Subject).Result);
             _ps.Invoke();
 
@@ -48,19 +50,18 @@ namespace MongoDb.AdminModule.Tests
             var script = data.LoadScript(this);
             var database = data.Database;
             _ps.AddScript(script).AddParameter("Database", database);
-            var adminService = data.Factory.Resolve<IAdminService>();
-            adminService.CreateDatabase(expireUsingIndex: false);
 
             _rtStore = data.Factory.Resolve<IRefreshTokenStore>();
-            AddExpiredTokens(data.Factory);
+            _setup = Setup(data.Factory);
         }
 
-        private void AddExpiredTokens(Factory factory)
+        private async Task Setup(Factory factory)
         {
             var admin = factory.Resolve<IAdminService>();
+            await admin.CreateDatabase(expireUsingIndex: false);
             var token = TestData.RefreshToken(Subject);
-            admin.Save(token.AccessToken.Client);
-            _rtStore.StoreAsync("ac", token).Wait();
+            await admin.Save(token.AccessToken.Client);
+            await _rtStore.StoreAsync("ac", token);
         }
     }
 }
