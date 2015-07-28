@@ -36,7 +36,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Empty(_scopeStore.FindScopesAsync(new[] { ScopeName }).Result);
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public DeleteScope(PowershellAdminModuleFixture data)
         {
             var admin = data.Factory.Resolve<IAdminService>();
             Scope scope = TestData.ScopeMandatoryProperties();

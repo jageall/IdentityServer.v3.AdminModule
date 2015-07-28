@@ -44,7 +44,7 @@ namespace MongoDb.AdminModule.Tests
             
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public CleanUpAuthorizationCodes(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             _script = data.LoadScript(this);

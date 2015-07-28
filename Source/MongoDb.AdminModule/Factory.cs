@@ -19,6 +19,7 @@ using IdentityServer.Admin.MongoDb;
 using IdentityServer.Core.MongoDb;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Services;
+using MongoDB.Driver;
 
 namespace IdentityServer.MongoDb.AdminModule
 {
@@ -26,7 +27,7 @@ namespace IdentityServer.MongoDb.AdminModule
     {
         private readonly IContainer _container;
 
-        public Factory(ServiceFactory config, AdminServiceRegistry admin)
+        public Factory(StoreSettings settings, ServiceFactory config, AdminServiceRegistry admin)
         {
             var cb = new ContainerBuilder();
             Register(cb, config.AuthorizationCodeStore);
@@ -38,6 +39,7 @@ namespace IdentityServer.MongoDb.AdminModule
             Register(cb, config.TokenHandleStore);
             Register(cb, admin.AdminService);
             Register(cb, admin.TokenCleanupService);
+            Register(cb, new Registration<IMongoClient>(new MongoClient(settings.ConnectionString)));
             foreach (var registration in config.Registrations)
             {
                 Register(cb, registration);

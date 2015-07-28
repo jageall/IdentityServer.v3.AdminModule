@@ -28,7 +28,7 @@ namespace IdentityServer.MongoDb.AdminModule
 
         protected override void ProcessRecord()
         {
-            AdminService.RemoveDatabase();
+            AdminService.RemoveDatabase().Wait();
         }
     }
 }

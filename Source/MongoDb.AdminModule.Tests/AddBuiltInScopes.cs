@@ -17,7 +17,6 @@ using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
 using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using Thinktecture.IdentityServer.Core.Services;
 using Xunit;

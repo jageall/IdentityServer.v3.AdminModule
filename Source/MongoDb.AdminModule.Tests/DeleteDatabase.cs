@@ -37,7 +37,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.False(await _server.DatabaseExistsAsync(_database));
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public DeleteDatabase(PowershellAdminModuleFixture data)
         {
             var admin = data.Factory.Resolve<IAdminService>();
             admin.CreateDatabase();

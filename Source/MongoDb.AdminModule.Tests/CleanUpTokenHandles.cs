@@ -42,7 +42,7 @@ namespace MongoDb.AdminModule.Tests
 
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public CleanUpTokenHandles(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             var script = data.LoadScript(this);

@@ -83,7 +83,8 @@ namespace IdentityServer.MongoDb.AdminModule
             CanCreateDatabase(storeSettings);
             
             var serviceFactory = new ServiceFactory(null, storeSettings);
-            var factory = new Factory(serviceFactory, new AdminServiceRegistry());
+            serviceFactory.Register(new Registration<IMongoClient>(new MongoClient(storeSettings.ConnectionString)));
+            var factory = new Factory(storeSettings,serviceFactory, new AdminServiceRegistry());
             _adminService = factory.Resolve<IAdminService>();
             _tokenCleanupService = factory.Resolve<ICleanupExpiredTokens>();
             _scopeStore = factory.Resolve<IScopeStore>();
@@ -93,8 +94,10 @@ namespace IdentityServer.MongoDb.AdminModule
         void CanCreateDatabase(StoreSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
-            
-            if (client.DatabaseExistsAsync(settings.Database).Result && !_createDb) throw new InvalidOperationException("Database does not exist");
+
+            if (client.DatabaseExistsAsync(settings.Database).Result || _createDb)
+                return;
+            throw new InvalidOperationException("Database does not exist");
         }
     }
 }

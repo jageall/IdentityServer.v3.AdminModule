@@ -42,10 +42,9 @@ namespace MongoDb.AdminModule.Tests
             var settings = StoreSettings.DefaultSettings();
             settings.Database = _database;
             var config = new ServiceFactory(null, settings);
-            config.Register(new Registration<IMongoClient>(new MongoClient("mongodb://localhost")));
-            _factory = new Factory(config, 
+            _factory = new Factory(settings, config, 
                 new AdminServiceRegistry());
-            _client = _factory.Resolve<IMongoClient>();
+            _client = new MongoClient(settings.ConnectionString);
         }
 
         public PowerShell PowerShell

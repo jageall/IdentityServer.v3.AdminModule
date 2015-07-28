@@ -29,7 +29,7 @@ namespace MongoDb.AdminModule.Tests
         private string _clientId;
 
         [Fact]
-        public void RemoveClient()
+        public void ClientIsRemoved()
         {
             Assert.NotNull(_store.FindClientByIdAsync(_clientId).Result);
             _ps.AddParameter("ClientId", _clientId);
@@ -39,7 +39,7 @@ namespace MongoDb.AdminModule.Tests
             Assert.Null(_store.FindClientByIdAsync(_clientId).Result);
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public DeleteClient(PowershellAdminModuleFixture data)
         {
             _data = data;
             _ps = data.PowerShell;

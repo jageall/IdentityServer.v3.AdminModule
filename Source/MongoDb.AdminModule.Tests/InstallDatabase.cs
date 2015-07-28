@@ -23,9 +23,9 @@ namespace MongoDb.AdminModule.Tests
 {
     public class InstallDatabase : IClassFixture<PowershellAdminModuleFixture>
     {
-        private PowerShell _ps;
-        private string _database;
-        private IMongoClient _client;
+        private readonly PowerShell _ps;
+        private readonly string _database;
+        private readonly IMongoClient _client;
 
         [Fact]
         public void CreateDatabase()
@@ -35,7 +35,7 @@ namespace MongoDb.AdminModule.Tests
             _ps.Invoke();
             Assert.True(_client.DatabaseExistsAsync(_database).Result);
             var db = _client.GetDatabase(_database);
-            Assert.True(db.CollectionExistsAsync(defaults.AuthorizationCodeCollection).Result);
+            Assert.True(db.CollectionExistsAsync(defaults.AuthorizationCodeCollection).Result,"Authoriz");
             Assert.True(db.CollectionExistsAsync(defaults.ClientCollection).Result);
             Assert.True(db.CollectionExistsAsync(defaults.ConsentCollection).Result);
             Assert.True(db.CollectionExistsAsync(defaults.RefreshTokenCollection).Result);
@@ -45,7 +45,7 @@ namespace MongoDb.AdminModule.Tests
             _client.DropDatabaseAsync(_database).Wait();
         }
 
-        public void SetFixture(PowershellAdminModuleFixture data)
+        public InstallDatabase(PowershellAdminModuleFixture data)
         {
             _ps = data.PowerShell;
             var script = data.LoadScript(this);

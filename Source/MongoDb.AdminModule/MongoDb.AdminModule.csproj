@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,9 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\IdentityServer.v3.MongoDb.1.6.1\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=2.0.0.23, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.2.0.0\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
+      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.2.0.2\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
