@@ -19,7 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     internal static class MongoClientExtensions
     {

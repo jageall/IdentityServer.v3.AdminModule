@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Automation;
-using System.Text;
-using System.Threading.Tasks;
-using IdentityServer3.Admin.MongoDb.Powershell;
 
-namespace IdentityServer.MongoDb.AdminModule
+using System.Management.Automation;
+
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     [Cmdlet(VerbsCommon.Remove, "Client")]
     public class RemoveClient : MongoCmdlet

@@ -17,7 +17,6 @@
 using System;
 using System.Management.Automation;
 using IdentityServer.Admin.MongoDb;
-using IdentityServer.MongoDb.AdminModule;
 using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 using IdentityServer3.MongoDb;

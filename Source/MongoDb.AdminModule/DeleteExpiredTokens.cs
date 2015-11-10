@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.Management.Automation;
-using IdentityServer3.Admin.MongoDb.Powershell;
+using IdentityServer.MongoDb.AdminModule;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     [Cmdlet(VerbsCommon.Remove, "Tokens")]
     public class DeleteExpiredTokens : MongoCmdlet

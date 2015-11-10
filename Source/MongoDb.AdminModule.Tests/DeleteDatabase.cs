@@ -16,8 +16,8 @@
 
 using System.Management.Automation;
 using System.Threading.Tasks;
-using IdentityServer.MongoDb.AdminModule;
 using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Admin.MongoDb.Powershell;
 using MongoDB.Driver;
 using Xunit;
 
