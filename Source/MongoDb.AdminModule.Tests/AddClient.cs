@@ -93,8 +93,6 @@ namespace MongoDb.AdminModule.Tests
             return adminService.CreateDatabase();
         }
 
-        
-        
         public Task DisposeAsync()
         {
             return Task.FromResult(0);

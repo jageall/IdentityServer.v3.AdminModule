@@ -31,7 +31,7 @@ namespace IdentityServer.MongoDb.AdminModule
 
         protected override void ProcessRecord()
         {
-            AdminService.DeleteClient(ClientId);
+            AdminService.DeleteClient(ClientId).Wait();
         }
     }
 }
