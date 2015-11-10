@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
@@ -72,8 +72,8 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal(TokenExpiration.Sliding, client.RefreshTokenExpiration);
             Assert.Equal(TokenUsage.ReUse, client.RefreshTokenUsage);
             Assert.Equal(true, client.RequireConsent);
-            Assert.Equal(new List<string> { "openid", "email", "roles" }, client.ScopeRestrictions);         
-            Assert.Equal(new List<string> { "grantrestriction1", "grantrestriction2", "grantrestriction3" }, client.CustomGrantTypeRestrictions);
+            Assert.Equal(new List<string> { "openid", "email", "roles" }, client.AllowedScopes);         
+            Assert.Equal(new List<string> { "grantrestriction1", "grantrestriction2", "grantrestriction3" }, client.AllowedCustomGrantTypes);
             Assert.Equal(50, client.SlidingRefreshTokenLifetime);
             Assert.True(client.AlwaysSendClientClaims);         
             Assert.True(client.PrefixClientClaims);         

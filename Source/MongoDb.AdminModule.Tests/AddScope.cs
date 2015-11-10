@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System.Linq;
 using System.Management.Automation;
-using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests

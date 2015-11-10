@@ -7,8 +7,8 @@
     <ProjectGuid>{D91D98A2-E90D-4695-AFB2-377788EE0757}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IdentityServer.MongoDb.AdminModule</RootNamespace>
-    <AssemblyName>IdentityServer.MongoDb.AdminModule</AssemblyName>
+    <RootNamespace>IdentityServer3.Admin.MongoDb.Powershell</RootNamespace>
+    <AssemblyName>IdentityServer3.Admin.MongoDb.Powershell</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,17 +34,21 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer.Core.MongoDb, Version=1.6.1.120, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.1.6.1\lib\net45\IdentityServer.Core.MongoDb.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.1.1\lib\net45\IdentityServer3.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer.v3.Admin.MongoDb, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityServer.v3.MongoDb.Admin.2.0.2\lib\net45\IdentityServer.v3.Admin.MongoDb.dll</HintPath>
+    <Reference Include="IdentityServer3.Admin.MongoDb, Version=3.0.0.35, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.MongoDb.Admin.3.0.1\lib\net45\IdentityServer3.Admin.MongoDb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityServer3.MongoDb, Version=2.0.1.137, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.MongoDb.2.0.1\lib\net45\IdentityServer3.MongoDb.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -58,10 +62,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.6.2\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateClient.cs" />

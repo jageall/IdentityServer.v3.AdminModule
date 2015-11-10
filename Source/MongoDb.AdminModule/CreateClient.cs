@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Management.Automation;
 using System.Security.Claims;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Core.Models;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     [Cmdlet(VerbsCommon.New, "Client")]
     public class CreateClient : PSCmdlet
@@ -30,7 +31,7 @@ namespace IdentityServer.MongoDb.AdminModule
         [Parameter(Mandatory = true)]
         public string ClientId { get; set; }
         [Parameter]
-        public ClientSecret[] ClientSecrets { get; set; }
+        public Secret[] ClientSecrets { get; set; }
 
         [Parameter(Mandatory = true)]
         public string ClientName { get; set; }
@@ -81,7 +82,7 @@ namespace IdentityServer.MongoDb.AdminModule
         [Parameter]
         public string[] RedirectUris { get; set; }
         [Parameter]
-        public string[] ScopeRestrictions { get; set; }
+        public string[] AllowedScopes { get; set; }
 
         [Parameter]
         public bool? IncludeJwtId { get; set; }
@@ -93,7 +94,7 @@ namespace IdentityServer.MongoDb.AdminModule
         public bool? PrefixClientClaims { get; set; }
         
         [Parameter]
-        public string[] CustomGrantTypeRestrictions { get; set; }
+        public string[] AllowedCustomGrantTypes { get; set; }
 
         [Parameter]
         public Claim[] Claims { get; set; }
@@ -120,7 +121,7 @@ namespace IdentityServer.MongoDb.AdminModule
             client.AuthorizationCodeLifetime =
                 AuthorizationCodeLifetime.GetValueOrDefault(client.AuthorizationCodeLifetime);
 
-            client.ClientSecrets = (ClientSecrets ?? new ClientSecret[]{}).ToList();
+            client.ClientSecrets = (ClientSecrets ?? new Secret[]{}).ToList();
             client.ClientUri = ClientUri;
             client.Enabled = Enabled.GetValueOrDefault(client.Enabled);
             client.Flow = Flow.GetValueOrDefault(client.Flow);
@@ -133,14 +134,14 @@ namespace IdentityServer.MongoDb.AdminModule
             client.RefreshTokenExpiration = RefreshTokenExpiration.GetValueOrDefault(client.RefreshTokenExpiration);
             client.RefreshTokenUsage = RefreshTokenUsage.GetValueOrDefault(client.RefreshTokenUsage);
             client.RequireConsent = RequireConsent.GetValueOrDefault(client.RequireConsent);
-            client.ScopeRestrictions.AddRange(ScopeRestrictions ?? new string[]{});
+            client.AllowedScopes.AddRange(AllowedScopes ?? new string[]{});
             client.SlidingRefreshTokenLifetime =
                 SlidingRefreshTokenLifetime.GetValueOrDefault(client.SlidingRefreshTokenLifetime);
             client.IncludeJwtId = IncludeJwtId.GetValueOrDefault(client.IncludeJwtId);
             client.AlwaysSendClientClaims = AlwaysSendClientClaims.GetValueOrDefault(client.AlwaysSendClientClaims);
             client.PrefixClientClaims = PrefixClientClaims.GetValueOrDefault(client.PrefixClientClaims);
             client.Claims.AddRange((Claims ?? new Claim[]{}));
-            client.CustomGrantTypeRestrictions.AddRange((CustomGrantTypeRestrictions ?? new string[]{}));
+            client.AllowedCustomGrantTypes.AddRange((AllowedCustomGrantTypes ?? new string[]{}));
             client.AllowClientCredentialsOnly =
                 AllowClientCredentialsOnly.GetValueOrDefault(client.AllowClientCredentialsOnly);
             client.AllowedCorsOrigins.AddRange(AllowedCorsOrigins ?? new String[]{});

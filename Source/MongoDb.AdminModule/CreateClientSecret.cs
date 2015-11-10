@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.Management.Automation;
 using System.Security.Cryptography;
 using System.Text;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer.MongoDb.AdminModule;
+using IdentityServer3.Core.Models;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     [Cmdlet(VerbsCommon.New, "ClientSecret")]
     public class CreateClientSecret : PSCmdlet
@@ -40,7 +42,7 @@ namespace IdentityServer.MongoDb.AdminModule
                 var bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(Value));
                 Value = Convert.ToBase64String(bytes);
             }
-            WriteObject(new ClientSecret(Value, Description, Expiration));
+            WriteObject(new Secret(Value, Description, Expiration));
         }
     }
 }

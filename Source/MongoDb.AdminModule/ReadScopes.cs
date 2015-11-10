@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Automation;
-using System.Reflection;
-using Thinktecture.IdentityServer.Core.Models;
 
-namespace IdentityServer.MongoDb.AdminModule
+using System.Collections.Generic;
+using System.Management.Automation;
+using IdentityServer3.Core.Models;
+
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     [Cmdlet(VerbsCommon.Get, "Scopes")]
     public class ReadScopes : MongoCmdlet

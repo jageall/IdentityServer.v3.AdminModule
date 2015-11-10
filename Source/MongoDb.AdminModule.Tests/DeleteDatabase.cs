@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System.Management.Automation;
 using System.Threading.Tasks;
-using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
+using IdentityServer3.Admin.MongoDb;
 using MongoDB.Driver;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteDatabase : IClassFixture<PowershellAdminModuleFixture>
+    public class DeleteDatabase : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
+        private readonly PowershellAdminModuleFixture _data;
         private string _database;
         private IMongoClient _server;
         private PowerShell _ps;
@@ -39,14 +40,25 @@ namespace MongoDb.AdminModule.Tests
 
         public DeleteDatabase(PowershellAdminModuleFixture data)
         {
-            var admin = data.Factory.Resolve<IAdminService>();
-            admin.CreateDatabase();
+            _data = data;
             _ps = data.PowerShell;
             _database = data.Database;
             _server = data.Client; 
             var script = data.LoadScript(this);
             _ps.AddScript(script).AddParameter("Database", _database);
            
+        }
+
+        public Task InitializeAsync()
+        {
+
+            var admin = _data.Factory.Resolve<IAdminService>();
+            return admin.CreateDatabase();
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

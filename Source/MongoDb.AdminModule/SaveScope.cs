@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 using System.Management.Automation;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Admin.MongoDb.Powershell;
+using IdentityServer3.Core.Models;
 
 namespace IdentityServer.MongoDb.AdminModule
 {
@@ -27,7 +28,7 @@ namespace IdentityServer.MongoDb.AdminModule
 
         protected override void ProcessRecord()
         {
-            AdminService.Save(Scope);
+            AdminService.Save(Scope).Wait();
         }
     }
 }

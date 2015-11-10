@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using Autofac;
 using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.MongoDb;
 using MongoDB.Driver;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     public class Factory
     {

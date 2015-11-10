@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using IdentityServer3.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Thinktecture.IdentityServer.Core.Models;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -38,13 +38,13 @@ namespace MongoDb.AdminModule.Tests
                 AuthorizationCodeLifetime = 30,
                 ClientId = "123",
                 ClientName = "TEST",
-                ClientSecrets = new List<ClientSecret>()
+                ClientSecrets = new List<Secret>()
                 {
-                    new ClientSecret("secret","secret", WellKnownTime){ClientSecretType = "secret type"},
-                    new ClientSecret("newsecret"),
+                    new Secret("secret","secret", WellKnownTime){Type = "secret type"},
+                    new Secret("newsecret"),
                 },
                 ClientUri = "clientUri",
-                CustomGrantTypeRestrictions = new List<string>()
+                AllowedCustomGrantTypes = new List<string>()
                 {
                     "Restriction1",
                     "Restriction2"
@@ -59,7 +59,7 @@ namespace MongoDb.AdminModule.Tests
                 RefreshTokenExpiration = TokenExpiration.Sliding,
                 RefreshTokenUsage = TokenUsage.ReUse,
                 RequireConsent = true,
-                ScopeRestrictions = { "restriction1", "restriction2", "restriction3" },
+                AllowedScopes = { "restriction1", "restriction2", "restriction3" },
                 SlidingRefreshTokenLifetime = 50,
                 IncludeJwtId = true,
                 PrefixClientClaims = true,

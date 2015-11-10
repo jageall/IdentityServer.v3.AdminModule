@@ -15,12 +15,11 @@
  */
 using System.Linq;
 using System.Management.Automation;
-using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
-using IdentityServer.MongoDb.AdminModule;
-using Thinktecture.IdentityServer.Core.Services;
 using Xunit;
 using System.Threading.Tasks;
+using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Admin.MongoDb.Powershell;
+using IdentityServer3.Core.Services;
 
 namespace MongoDb.AdminModule.Tests
 {

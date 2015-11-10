@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.Management.Automation;
 using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
+using IdentityServer.MongoDb.AdminModule;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.MongoDb;
 using MongoDB.Driver;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
 
-namespace IdentityServer.MongoDb.AdminModule
+namespace IdentityServer3.Admin.MongoDb.Powershell
 {
     public abstract class MongoCmdlet : PSCmdlet
     {

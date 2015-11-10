@@ -15,6 +15,7 @@
  */
 using System;
 using System.Management.Automation;
+using IdentityServer3.Admin.MongoDb.Powershell;
 
 namespace IdentityServer.MongoDb.AdminModule
 {

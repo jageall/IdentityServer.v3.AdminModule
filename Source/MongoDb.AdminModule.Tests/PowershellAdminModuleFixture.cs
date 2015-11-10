@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using IdentityServer.Admin.MongoDb;
-using IdentityServer.Core.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
+using IdentityServer3.Admin.MongoDb.Powershell;
+using IdentityServer3.MongoDb;
 using MongoDB.Driver;
-using Thinktecture.IdentityServer.Core.Configuration;
 
 namespace MongoDb.AdminModule.Tests
 {
@@ -76,7 +77,7 @@ namespace MongoDb.AdminModule.Tests
                 if (_client.DatabaseExistsAsync(Database).Result)
                     _client.DropDatabaseAsync(Database).Wait();
             }
-            //var dbns = _client.ListDatabasesAsync().Result.ToListAsync().Result.Select(x=>x["name"].AsString);
+            //var dbns = _client.ListDatabasesAsync().Result.ToListAsync().Result.Select(x => x["name"].AsString);
             //foreach (var dbn in dbns)
             //{
             //    Guid ignored;

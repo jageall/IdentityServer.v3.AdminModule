@@ -13,34 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
-using IdentityServer.Admin.MongoDb;
-using IdentityServer.MongoDb.AdminModule;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Admin.MongoDb.Powershell;
+using IdentityServer3.Core.Services;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddBuiltInScopes : IClassFixture<PowershellAdminModuleFixture>
+    public class AddBuiltInScopes : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
-        private IScopeStore _scopeStore;
-        private PowerShell _ps;
-        private PowershellAdminModuleFixture _data;
-        private Task _setup;
+        private readonly IScopeStore _scopeStore;
+        private readonly PowerShell _ps;
+        private readonly PowershellAdminModuleFixture _data;
 
         [Fact]
         public async Task VerifyAllBuiltInScopes()
         {
-            await _setup;
             _ps.Invoke();
             Assert.Null(_data.GetPowershellErrors());
             Assert.Equal(
                 ReadScopes.BuiltInScopes()
                     .OrderBy(x => x.Name)
                     .Select(TestData.ToTestableString), 
-                _scopeStore.GetScopesAsync(false).Result
+                (await _scopeStore.GetScopesAsync(false))
                     .OrderBy(x=>x.Name)
                     .Select(TestData.ToTestableString)
                 );
@@ -54,8 +53,18 @@ namespace MongoDb.AdminModule.Tests
             var database = data.Database;
             _ps.AddScript(script).AddParameter("Database", database);
             _scopeStore = data.Factory.Resolve<IScopeStore>();
-            var adminService = data.Factory.Resolve<IAdminService>();
-            _setup = adminService.CreateDatabase();
+            
+        }
+
+        public async Task InitializeAsync()
+        {
+            var adminService = _data.Factory.Resolve<IAdminService>();
+            await adminService.CreateDatabase();
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

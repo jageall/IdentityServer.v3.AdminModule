@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System.Management.Automation;
-using IdentityServer.Core.MongoDb;
+using System.Threading.Tasks;
 using IdentityServer.MongoDb.AdminModule;
+using IdentityServer3.MongoDb;
 using MongoDB.Driver;
 using Xunit;
-using System.Threading.Tasks;
 
 namespace MongoDb.AdminModule.Tests
 {

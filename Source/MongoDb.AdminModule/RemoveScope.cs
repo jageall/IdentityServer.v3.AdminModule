@@ -19,6 +19,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityServer3.Admin.MongoDb.Powershell;
 
 namespace IdentityServer.MongoDb.AdminModule
 {
