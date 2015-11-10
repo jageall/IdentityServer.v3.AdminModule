@@ -98,7 +98,7 @@
   </Target>-->
   <Target Name="AfterBuild">
     <MakeDir Directories="$(SolutionDir)..\out" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
-    <Exec Command="$(SolutionDir)\packages\ilmerge.2.14.1208\tools\ILMerge.exe /internalize /out:$(SolutionDir)..\out\$(TargetName)$(TargetExt) $(TargetDir)$(TargetName)$(TargetExt) $(TargetDir)IdentityServer.Core.MongoDb.dll $(TargetDir)IdentityServer.v3.Admin.MongoDb.dll $(TargetDir)Owin.dll $(TargetDir)AutoFac.dll" ContinueOnError="false" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
-    <Copy SourceFiles="$(TargetDir)Thinktecture.IdentityServer3.dll" DestinationFolder="$(SolutionDir)..\out" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
+    <Exec Command="$(SolutionDir)\packages\ilmerge.2.14.1208\tools\ILMerge.exe /internalize /out:$(SolutionDir)..\out\$(TargetName)$(TargetExt) $(TargetDir)$(TargetName)$(TargetExt) $(TargetDir)IdentityServer3.MongoDb.dll $(TargetDir)IdentityServer3.Admin.MongoDb.dll $(TargetDir)Owin.dll $(TargetDir)AutoFac.dll" ContinueOnError="false" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
+    <Copy SourceFiles="$(TargetDir)IdentityServer3.dll" DestinationFolder="$(SolutionDir)..\out" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
   </Target>
 </Project>
