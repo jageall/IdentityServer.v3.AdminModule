@@ -19,15 +19,17 @@ using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using System.Threading.Tasks;
 using IdentityServer.Admin.MongoDb;
 using IdentityServer.MongoDb.AdminModule;
 using IdentityServer3.Admin.MongoDb.Powershell;
 using IdentityServer3.MongoDb;
 using MongoDB.Driver;
+using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class PowershellAdminModuleFixture : IDisposable
+    public class PowershellAdminModuleFixture : IAsyncLifetime
     {
         private readonly PowerShell _powerShell;
         private readonly string _database;
@@ -66,26 +68,6 @@ namespace MongoDb.AdminModule.Tests
         public Factory Factory
         {
             get { return _factory; }
-        }
-
-        public void Dispose()
-        {
-            var failed = GetPowershellErrors();
-            PowerShell.Dispose();
-            if (Environment.GetEnvironmentVariable("idsvr_mongodb_no_teardown") == null)
-            {
-                if (_client.DatabaseExistsAsync(Database).Result)
-                    _client.DropDatabaseAsync(Database).Wait();
-            }
-            //var dbns = _client.ListDatabasesAsync().Result.ToListAsync().Result.Select(x => x["name"].AsString);
-            //foreach (var dbn in dbns)
-            //{
-            //    Guid ignored;
-            //    if (Guid.TryParse(dbn, out ignored))
-            //        _client.DropDatabaseAsync(dbn).Wait();
-            //}
-
-            if (failed != null) throw failed;
         }
 
         public AggregateException GetPowershellErrors()
@@ -127,6 +109,31 @@ namespace MongoDb.AdminModule.Tests
                 return new StreamReader(stream).ReadToEnd();
             }
 
+        }
+
+        public Task InitializeAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        public async Task DisposeAsync()
+        {
+            var failed = GetPowershellErrors();
+            PowerShell.Dispose();
+            if (Environment.GetEnvironmentVariable("idsvr_mongodb_no_teardown") == null)
+            {
+                if (await _client.DatabaseExistsAsync(Database))
+                    await _client.DropDatabaseAsync(Database);
+            }
+            //var dbns = (await (await _client.ListDatabasesAsync()).ToListAsync()).Select(x => x["name"].AsString);
+            //foreach (var dbn in dbns)
+            //{
+            //    Guid ignored;
+            //    if (Guid.TryParse(dbn, out ignored))
+            //        await _client.DropDatabaseAsync(dbn);
+            //}
+
+            if (failed != null) throw failed;
         }
     }
 }

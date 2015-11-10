@@ -24,17 +24,16 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpTokenHandles : IClassFixture<PowershellAdminModuleFixture>
+    public class CleanUpTokenHandles : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
+        private readonly PowershellAdminModuleFixture _data;
         private PowerShell _ps;
-        private ITokenHandleStore _thStore;
+        private readonly ITokenHandleStore _thStore;
         private const string Subject = "expired";
-        Task _setup;
-
+        
         [Fact]
         public async Task RefreshTokensAreDeleted()
         {
-            await _setup;
             Assert.NotEmpty(_thStore.GetAllAsync(Subject).Result);
             _ps.Invoke();
 
@@ -46,23 +45,28 @@ namespace MongoDb.AdminModule.Tests
 
         public CleanUpTokenHandles(PowershellAdminModuleFixture data)
         {
+            _data = data;
             _ps = data.PowerShell;
             var script = data.LoadScript(this);
             var database = data.Database;
             _ps.AddScript(script).AddParameter("Database", database);
             _thStore = data.Factory.Resolve<ITokenHandleStore>();
-            _setup = Setup(data.Factory);
         }
 
-        private async Task Setup(Factory factory)
+        public async Task InitializeAsync()
         {
-            
+            var factory = _data.Factory;
             var admin = factory.Resolve<IAdminService>();
             await admin.CreateDatabase(expireUsingIndex: false);
-            
+
             var token = TestData.Token(Subject);
             await admin.Save(token.Client);
             await _thStore.StoreAsync("ac", token);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

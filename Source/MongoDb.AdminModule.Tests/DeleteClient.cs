@@ -15,29 +15,33 @@
  */
 
 using System.Management.Automation;
+using System.Threading.Tasks;
 using IdentityServer3.Admin.MongoDb;
+using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class DeleteClient : IClassFixture<PowershellAdminModuleFixture>
+    public class DeleteClient : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
         private PowershellAdminModuleFixture _data;
         private PowerShell _ps;
         
         private IClientStore _store;
-        private string _clientId;
+
+        private Client _client;
 
         [Fact]
-        public void ClientIsRemoved()
+        public async Task ClientIsRemoved()
         {
-            Assert.NotNull(_store.FindClientByIdAsync(_clientId).Result);
-            _ps.AddParameter("ClientId", _clientId);
+            string clientId = _client.ClientId;
+            Assert.NotNull(await _store.FindClientByIdAsync(clientId));
+            _ps.AddParameter("ClientId", clientId);
             _ps.Invoke();
             
             Assert.Null(_data.GetPowershellErrors());
-            Assert.Null(_store.FindClientByIdAsync(_clientId).Result);
+            Assert.Null(await _store.FindClientByIdAsync(clientId));
         }
 
         public DeleteClient(PowershellAdminModuleFixture data)
@@ -47,11 +51,20 @@ namespace MongoDb.AdminModule.Tests
             var database = data.Database;
             _ps.AddScript(data.LoadScript(this)).AddParameter("Database", database);
             _store = data.Factory.Resolve<IClientStore>();
-            var am = data.Factory.Resolve<IAdminService>();
 
-            var client = TestData.ClientAllProperties();
-            _clientId = client.ClientId;
-            am.Save(client);
+            _client = TestData.ClientAllProperties();
+            
+        }
+
+        public Task InitializeAsync()
+        {
+            var am = _data.Factory.Resolve<IAdminService>();
+            return am.Save(_client);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

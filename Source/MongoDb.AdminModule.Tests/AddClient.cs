@@ -27,24 +27,27 @@ using Xunit;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class AddClient : IClassFixture<PowershellAdminModuleFixture>
+    public class AddClient : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
-        private PowershellAdminModuleFixture _data;
+        private readonly PowershellAdminModuleFixture _data;
         private PowerShell _ps;
-        private IClientStore _store;
-        private readonly Task _setup;
-
+        private readonly IClientStore _store;
+        
         public AddClient(PowershellAdminModuleFixture data)
         {
-            _setup = Setup(data);
+            _data = data;
+            _ps = _data.PowerShell;
+            var database = _data.Database;
+            _ps.AddScript(_data.LoadScript(this)).AddParameter("Database", database);
+            _store = _data.Factory.Resolve<IClientStore>();
         }
+
         [Fact]
         public async Task CheckClient()
         {
-            await _setup;
             _ps.Invoke();
             Assert.Null(_data.GetPowershellErrors());
-            var client = _store.FindClientByIdAsync("test").Result;
+            var client = await _store.FindClientByIdAsync("test");
             Assert.NotNull(client);
             Assert.Equal(10, client.AbsoluteRefreshTokenLifetime);
             Assert.Equal(20, client.AccessTokenLifetime);
@@ -84,15 +87,17 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal(new List<string>{"cors1", "cors2", "cors3"}, client.AllowedCorsOrigins);
         }
 
-        public async Task Setup(PowershellAdminModuleFixture data)
+        public Task InitializeAsync()
         {
-            _data = data;
-            _ps = data.PowerShell;
-            var database = data.Database;
-            _ps.AddScript(data.LoadScript(this)).AddParameter("Database", database);
-            _store = data.Factory.Resolve<IClientStore>();
-            var adminService = data.Factory.Resolve<IAdminService>();
-            await adminService.CreateDatabase();
+            var adminService = _data.Factory.Resolve<IAdminService>();
+            return adminService.CreateDatabase();
+        }
+
+        
+        
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

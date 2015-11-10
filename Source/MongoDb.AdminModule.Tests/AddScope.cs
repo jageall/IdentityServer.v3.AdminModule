@@ -16,6 +16,7 @@
 
 using System.Linq;
 using System.Management.Automation;
+using System.Threading.Tasks;
 using IdentityServer3.Admin.MongoDb;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
@@ -25,17 +26,17 @@ namespace MongoDb.AdminModule.Tests
 {
     public class AddScope : IClassFixture<PowershellAdminModuleFixture>
     {
-        private PowerShell _ps;
-        private IScopeStore _scopeStore;
+        private readonly PowerShell _ps;
+        private readonly IScopeStore _scopeStore;
 
         [Fact]
-        public void VerifyAdd()
+        public async Task VerifyAdd()
         {
             
-            Assert.Empty(_scopeStore.GetScopesAsync(false).Result);
+            Assert.Empty(await _scopeStore.GetScopesAsync(false));
             _ps.Invoke();
 
-            var result = _scopeStore.GetScopesAsync(false).Result.ToArray();
+            var result = (await _scopeStore.GetScopesAsync(false)).ToArray();
             Assert.Equal(1, result.Length);
             var scope = result.Single();
             Assert.Equal("unit_test_scope", scope.Name);

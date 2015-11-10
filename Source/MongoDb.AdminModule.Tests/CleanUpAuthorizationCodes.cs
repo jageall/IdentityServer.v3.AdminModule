@@ -23,20 +23,19 @@ using IdentityServer3.Core.Services;
 
 namespace MongoDb.AdminModule.Tests
 {
-    public class CleanUpAuthorizationCodes : IClassFixture<PowershellAdminModuleFixture>
+    public class CleanUpAuthorizationCodes : IClassFixture<PowershellAdminModuleFixture>, IAsyncLifetime
     {
-        private PowerShell _ps;
-        private string _script;
-        private string _database;
-        private IAuthorizationCodeStore _acStore;
+        private readonly PowershellAdminModuleFixture _data;
+        private readonly PowerShell _ps;
+        private readonly string _script;
+        private readonly string _database;
+        private readonly IAuthorizationCodeStore _acStore;
         private const string Subject = "expired";
-        Task _setup;
-
+        
         [Fact]
         public async Task AuthorizationCodesAreDeleted()
         {
-            await _setup;
-            Assert.NotEmpty(_acStore.GetAllAsync(Subject).Result);
+            Assert.NotEmpty(await _acStore.GetAllAsync(Subject));
             _ps.Invoke();
 
             Assert.Equal(
@@ -47,17 +46,18 @@ namespace MongoDb.AdminModule.Tests
 
         public CleanUpAuthorizationCodes(PowershellAdminModuleFixture data)
         {
+            _data = data;
             _ps = data.PowerShell;
             _script = data.LoadScript(this);
             _database = data.Database;
             _ps.AddScript(_script).AddParameter("Database", _database);
             _acStore = data.Factory.Resolve<IAuthorizationCodeStore>();
-            _setup = Setup(data.Factory);
+            
         }
 
-        private async Task Setup(Factory factory)
+        public async Task InitializeAsync()
         {
-            
+            var factory = _data.Factory;
             var admin = factory.Resolve<IAdminService>();
             var code = TestData.AuthorizationCode(Subject);
             
@@ -71,6 +71,11 @@ namespace MongoDb.AdminModule.Tests
             await _acStore.StoreAsync("ac", code);
 
 
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }
