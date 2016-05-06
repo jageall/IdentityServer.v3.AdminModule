@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using IdentityServer3.Core;
 using IdentityServer3.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -40,7 +41,7 @@ namespace MongoDb.AdminModule.Tests
                 ClientName = "TEST",
                 ClientSecrets = new List<Secret>()
                 {
-                    new Secret("secret","secret", WellKnownTime){Type = "secret type"},
+                    new Secret("secret","secret", WellKnownTime){Type = Constants.SecretTypes.SharedSecret},
                     new Secret("newsecret"),
                 },
                 ClientUri = "clientUri",
