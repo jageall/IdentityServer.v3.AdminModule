@@ -34,15 +34,20 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
         public DateTimeOffset? Expiration { get; set; }
         [Parameter]
         public HashType? Hash { get; set; }
+
+        [Parameter]
+        public string Type { get; set; }
+
         protected override void ProcessRecord()
         {
             if (Hash != null)
             {
-                var hash = Hash == HashType.SHA256 ? (HashAlgorithm) SHA256.Create() : SHA512.Create();
+                var hash = Hash == HashType.SHA256 ? (HashAlgorithm)SHA256.Create() : SHA512.Create();
                 var bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(Value));
                 Value = Convert.ToBase64String(bytes);
             }
-            WriteObject(new Secret(Value, Description, Expiration));
+            if (string.IsNullOrWhiteSpace(Type)) Type = Core.Constants.SecretTypes.SharedSecret;
+            WriteObject(new Secret(Value, Description, Expiration) { Type = Type });
         }
     }
 }
