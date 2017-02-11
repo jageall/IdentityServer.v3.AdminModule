@@ -15,7 +15,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Management.Automation;
+using System.Threading.Tasks;
 using IdentityServer.MongoDb.AdminModule;
 
 namespace IdentityServer3.Admin.MongoDb.Powershell
@@ -43,21 +45,23 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
                 expiredBefore.Second,
                 expiredBefore.Millisecond,
                 DateTimeKind.Utc);
-
+            List<Task> cleanupTasks = new List<Task>();
             if ((Types & TokenTypes.AuthorizationCode) == TokenTypes.AuthorizationCode)
             {
-                service.CleanupAuthorizationCodes(expiry);
+                cleanupTasks.Add(service.CleanupAuthorizationCodes(expiry));
             }
 
             if ((Types & TokenTypes.Refresh) == TokenTypes.Refresh)
             {
-                service.CleanupRefreshTokens(expiry);
+                cleanupTasks.Add(service.CleanupRefreshTokens(expiry));
             }
 
             if ((Types & TokenTypes.Handle) == TokenTypes.Handle)
             {
-                service.CleanupTokenHandles(expiry);
+                cleanupTasks.Add(service.CleanupTokenHandles(expiry));
             }
+
+            Task.WaitAll(cleanupTasks.ToArray());
         }
     }
 }
