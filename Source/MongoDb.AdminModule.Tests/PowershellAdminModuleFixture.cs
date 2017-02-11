@@ -18,6 +18,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using IdentityServer.Admin.MongoDb;
@@ -132,8 +133,8 @@ namespace MongoDb.AdminModule.Tests
             //    if (Guid.TryParse(dbn, out ignored))
             //        await _client.DropDatabaseAsync(dbn);
             //}
-
-            if (failed != null) throw failed;
+            
+            if (failed != null) ExceptionDispatchInfo.Capture(failed).Throw();
         }
     }
 }

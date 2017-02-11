@@ -32,7 +32,7 @@ namespace MongoDb.AdminModule.Tests
         private readonly PowershellAdminModuleFixture _data;
         private PowerShell _ps;
         private readonly IClientStore _store;
-        
+
         public AddClient(PowershellAdminModuleFixture data)
         {
             _data = data;
@@ -61,30 +61,36 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal(2, client.ClientSecrets.Count);
             Assert.Equal("WxFhjC5EAnh30M0JIe0Wa58Xb1BYf8kedTTdKUbbd9Y=", client.ClientSecrets[0].Value);
             Assert.Equal("testsecret", client.ClientSecrets[0].Description);
-            Assert.Equal(new DateTimeOffset(2000, 1,1,1,1,1,0,TimeSpan.Zero), client.ClientSecrets[0].Expiration);
+            Assert.Equal(new DateTimeOffset(2000, 1, 1, 1, 1, 1, 0, TimeSpan.Zero), client.ClientSecrets[0].Expiration);
             Assert.Equal("cckjYsokygyEIiAV5Y/sIStXfM1W7qwGTo3K9VxmT4xXfeRFWekmMbr2wKZy2T1HSNXW6vjNyRxajG46oEBrAw==", client.ClientSecrets[1].Value);
             Assert.Null(client.ClientSecrets[1].Description);
             Assert.Null(client.ClientSecrets[1].Expiration);
             Assert.Equal(true, client.Enabled);
             Assert.Equal(Flows.AuthorizationCode, client.Flow);
-            Assert.Equal(new List<string>{"restriction1", "restriction2"}, client.IdentityProviderRestrictions);
+            Assert.Equal(new List<string> { "restriction1", "restriction2" }, client.IdentityProviderRestrictions);
             Assert.Equal(40, client.IdentityTokenLifetime);
             Assert.Equal("uri:logo", client.LogoUri);
-            Assert.Equal(new List<string>{"uri:logout1", "uri:logout2"}, client.PostLogoutRedirectUris);
-            Assert.Equal(new List<string>{"uri:redirect1", "uri:redirect2"}, client.RedirectUris);
+            Assert.Equal(new List<string> { "uri:logout1", "uri:logout2" }, client.PostLogoutRedirectUris);
+            Assert.Equal(new List<string> { "uri:redirect1", "uri:redirect2" }, client.RedirectUris);
             Assert.Equal(TokenExpiration.Sliding, client.RefreshTokenExpiration);
             Assert.Equal(TokenUsage.ReUse, client.RefreshTokenUsage);
             Assert.Equal(true, client.RequireConsent);
-            Assert.Equal(new List<string> { "openid", "email", "roles" }, client.AllowedScopes);         
+            Assert.Equal(new List<string> { "openid", "email", "roles" }, client.AllowedScopes);
             Assert.Equal(new List<string> { "grantrestriction1", "grantrestriction2", "grantrestriction3" }, client.AllowedCustomGrantTypes);
             Assert.Equal(50, client.SlidingRefreshTokenLifetime);
-            Assert.True(client.AlwaysSendClientClaims);         
-            Assert.True(client.PrefixClientClaims);         
+            Assert.True(client.AlwaysSendClientClaims);
+            Assert.True(client.PrefixClientClaims);
             Assert.True(client.IncludeJwtId);
             Assert.Equal(new List<Claim> { new Claim("claimtype1", "claimvalue1"), new Claim("claimtype2", "claimvalue2"), }.Select(TestData.ToTestableString), client.Claims.Select(TestData.ToTestableString));
             Assert.True(client.AllowClientCredentialsOnly);
             Assert.True(client.UpdateAccessTokenClaimsOnRefresh);
-            Assert.Equal(new List<string>{"cors1", "cors2", "cors3"}, client.AllowedCorsOrigins);
+            Assert.Equal(new List<string> { "cors1", "cors2", "cors3" }, client.AllowedCorsOrigins);
+            Assert.True(client.AllowAccessToAllScopes);
+            Assert.True(client.AllowAccessToAllCustomGrantTypes);
+            Assert.False(client.AllowAccessTokensViaBrowser);
+            Assert.False(client.LogoutSessionRequired);
+            Assert.False(client.RequireSignOutPrompt);
+            Assert.Equal("somelogouturi", client.LogoutUri);
         }
 
         public Task InitializeAsync()

@@ -45,8 +45,15 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
         public bool? ShowInDiscoveryDocument { get; set; }
         [Parameter]
         public bool? Required { get; set; }
+        
         [Parameter]
         public ScopeType? Type { get; set; }
+
+        [Parameter]
+        public bool? AllowUnrestrictedIntrospection { get; set; }
+
+        [Parameter]
+        public Secret[] ScopeSecrets { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -64,7 +71,9 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
                 Required = Required.GetValueOrDefault(DefaultValues.Required),
                 ShowInDiscoveryDocument =
                     ShowInDiscoveryDocument.GetValueOrDefault(DefaultValues.ShowInDiscoveryDocument),
-                Type = Type.GetValueOrDefault(DefaultValues.Type)
+                Type = Type.GetValueOrDefault(DefaultValues.Type),
+                AllowUnrestrictedIntrospection = AllowUnrestrictedIntrospection.GetValueOrDefault(DefaultValues.AllowUnrestrictedIntrospection),
+                ScopeSecrets = (ScopeSecrets ?? new Secret[] { }).ToList()
             };
             
             WriteObject(scope);

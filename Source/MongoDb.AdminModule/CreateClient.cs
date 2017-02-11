@@ -86,13 +86,13 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
 
         [Parameter]
         public bool? IncludeJwtId { get; set; }
-        
+
         [Parameter]
         public bool? AlwaysSendClientClaims { get; set; }
 
         [Parameter]
         public bool? PrefixClientClaims { get; set; }
-        
+
         [Parameter]
         public string[] AllowedCustomGrantTypes { get; set; }
 
@@ -108,10 +108,28 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
         [Parameter]
         public string[] AllowedCorsOrigins { get; set; }
 
+        [Parameter]
+        public bool? AllowAccessToAllScopes { get; set; }
+
+        [Parameter]
+        public bool? AllowAccessToAllCustomGrantTypes { get; set; }
+
+        [Parameter]
+        public bool? AllowAccessTokensViaBrowser { get; set; }
+
+        [Parameter]
+        public bool? LogoutSessionRequired { get; set; }
+
+        [Parameter]
+        public bool? RequireSignOutPrompt { get; set; }
+
+        [Parameter]
+        public string LogoutUri { get; set; }
+
         protected override void ProcessRecord()
         {
             var client = new Client() { ClientId = ClientId, ClientName = ClientName };
-            
+
             client.AbsoluteRefreshTokenLifetime =
                 AbsoluteRefreshTokenLifetime.GetValueOrDefault(client.AbsoluteRefreshTokenLifetime);
             client.AccessTokenLifetime = AccessTokenLifetime.GetValueOrDefault(client.AccessTokenLifetime);
@@ -121,32 +139,38 @@ namespace IdentityServer3.Admin.MongoDb.Powershell
             client.AuthorizationCodeLifetime =
                 AuthorizationCodeLifetime.GetValueOrDefault(client.AuthorizationCodeLifetime);
 
-            client.ClientSecrets = (ClientSecrets ?? new Secret[]{}).ToList();
+            client.ClientSecrets = (ClientSecrets ?? new Secret[] { }).ToList();
             client.ClientUri = ClientUri;
             client.Enabled = Enabled.GetValueOrDefault(client.Enabled);
             client.Flow = Flow.GetValueOrDefault(client.Flow);
             client.IdentityProviderRestrictions = (IdentityProviderRestrictions ?? client.IdentityProviderRestrictions.ToArray()).ToList();
             client.IdentityTokenLifetime = IdentityTokenLifetime.GetValueOrDefault(client.IdentityTokenLifetime);
             client.LogoUri = LogoUri;
-            
+
             client.PostLogoutRedirectUris.AddRange(PostLogoutRedirectUris ?? new string[] { });
             client.RedirectUris.AddRange(RedirectUris ?? new string[] { });
             client.RefreshTokenExpiration = RefreshTokenExpiration.GetValueOrDefault(client.RefreshTokenExpiration);
             client.RefreshTokenUsage = RefreshTokenUsage.GetValueOrDefault(client.RefreshTokenUsage);
             client.RequireConsent = RequireConsent.GetValueOrDefault(client.RequireConsent);
-            client.AllowedScopes.AddRange(AllowedScopes ?? new string[]{});
+            client.AllowedScopes.AddRange(AllowedScopes ?? new string[] { });
             client.SlidingRefreshTokenLifetime =
                 SlidingRefreshTokenLifetime.GetValueOrDefault(client.SlidingRefreshTokenLifetime);
             client.IncludeJwtId = IncludeJwtId.GetValueOrDefault(client.IncludeJwtId);
             client.AlwaysSendClientClaims = AlwaysSendClientClaims.GetValueOrDefault(client.AlwaysSendClientClaims);
             client.PrefixClientClaims = PrefixClientClaims.GetValueOrDefault(client.PrefixClientClaims);
-            client.Claims.AddRange((Claims ?? new Claim[]{}));
-            client.AllowedCustomGrantTypes.AddRange((AllowedCustomGrantTypes ?? new string[]{}));
+            client.Claims.AddRange((Claims ?? new Claim[] { }));
+            client.AllowedCustomGrantTypes.AddRange((AllowedCustomGrantTypes ?? new string[] { }));
             client.AllowClientCredentialsOnly =
                 AllowClientCredentialsOnly.GetValueOrDefault(client.AllowClientCredentialsOnly);
-            client.AllowedCorsOrigins.AddRange(AllowedCorsOrigins ?? new String[]{});
+            client.AllowedCorsOrigins.AddRange(AllowedCorsOrigins ?? new String[] { });
             client.UpdateAccessTokenClaimsOnRefresh =
                 UpdateAccessTokenClaimsOnRefresh.GetValueOrDefault(client.UpdateAccessTokenClaimsOnRefresh);
+            client.AllowAccessToAllScopes = AllowAccessToAllScopes.GetValueOrDefault(client.AllowAccessToAllScopes);
+            client.AllowAccessToAllCustomGrantTypes = AllowAccessToAllCustomGrantTypes.GetValueOrDefault(client.AllowAccessToAllCustomGrantTypes);
+            client.AllowAccessTokensViaBrowser = AllowAccessTokensViaBrowser.GetValueOrDefault(client.AllowAccessTokensViaBrowser);
+            client.LogoutSessionRequired = LogoutSessionRequired.GetValueOrDefault(client.LogoutSessionRequired);
+            client.RequireSignOutPrompt = RequireSignOutPrompt.GetValueOrDefault(client.RequireSignOutPrompt);
+            client.LogoutUri = LogoutUri;
             WriteObject(client);
         }
     }

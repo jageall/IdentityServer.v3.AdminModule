@@ -63,12 +63,22 @@ namespace MongoDb.AdminModule.Tests
                 SlidingRefreshTokenLifetime = 50,
                 IncludeJwtId = true,
                 PrefixClientClaims = true,
-                Claims = new List<Claim>()
+                Claims = new List<Claim>
                 {
                     new Claim("client1", "value1"),
                     new Claim("client2", "value2"),
                     new Claim("client3", "value3"),
-                }
+                    new Claim("withType", "value", "typeOfValue")
+                },
+                AllowClientCredentialsOnly = true,
+                UpdateAccessTokenClaimsOnRefresh = true,
+                AllowedCorsOrigins = new List<string> { "CorsOrigin1", "CorsOrigin2", "CorsOrigin3", },
+                AllowAccessToAllScopes = true,
+                AllowAccessToAllCustomGrantTypes = true,
+                AllowAccessTokensViaBrowser = false,
+                LogoutSessionRequired = false,
+                RequireSignOutPrompt = false,
+                LogoutUri = "somelogouturi"
             };
         }
 
@@ -100,7 +110,11 @@ namespace MongoDb.AdminModule.Tests
                 IncludeAllClaimsForUser = true,
                 Required = true,
                 ShowInDiscoveryDocument = false,
-                Type = ScopeType.Identity
+                Type = ScopeType.Identity,
+                AllowUnrestrictedIntrospection = true,
+                ScopeSecrets = new List<Secret>() {
+                    new Secret("secret1"),
+                    new Secret("secret2", "description", new DateTimeOffset(2000, 1, 1, 1, 1, 1, 1, TimeSpan.Zero)) {Type = "someothertype"} }
             };
         }
 
@@ -124,7 +138,10 @@ namespace MongoDb.AdminModule.Tests
                 RequestedScopes = Scopes(),
                 Subject = Subject(subjectId),
                 WasConsentShown = true,
-                Nonce = "test"
+				Nonce = "test",
+                CodeChallenge = "codeChallenge",
+                CodeChallengeMethod = "challengeMethod",
+                SessionId = "sessionId"
             };
         }
 
@@ -171,7 +188,8 @@ namespace MongoDb.AdminModule.Tests
                 AccessToken = Token(subject),
                 CreationTime = new DateTimeOffset(2000, 1, 1, 1, 1, 1, 0, TimeSpan.Zero),
                 LifeTime = 100,
-                Version = 10
+                Version = 10,
+                Subject = new ClaimsPrincipal(new ClaimsIdentity(Claims(subject)))
             };
         }
 

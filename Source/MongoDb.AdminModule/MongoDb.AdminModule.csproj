@@ -31,19 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="IdentityServer3, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.1.1\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3.Admin.MongoDb, Version=3.0.0.35, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.MongoDb.Admin.3.0.1\lib\net45\IdentityServer3.Admin.MongoDb.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.6.0\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3.MongoDb, Version=2.0.1.137, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.MongoDb.2.0.1\lib\net45\IdentityServer3.MongoDb.dll</HintPath>
+    <Reference Include="IdentityServer3.Admin.MongoDb, Version=3.1.0.38, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.MongoDb.Admin.3.1.0\lib\net45\IdentityServer3.Admin.MongoDb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityServer3.MongoDb, Version=2.1.1.158, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.MongoDb.2.1.1\lib\net45\IdentityServer3.MongoDb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -69,6 +70,7 @@
     <Compile Include="CreateClientSecret.cs" />
     <Compile Include="CreateScope.cs" />
     <Compile Include="CreateScopeClaim.cs" />
+    <Compile Include="CreateScopeSecret.cs" />
     <Compile Include="DeleteExpiredTokens.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="HashType.cs" />

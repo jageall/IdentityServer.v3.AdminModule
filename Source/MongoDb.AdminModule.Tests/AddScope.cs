@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
@@ -59,7 +61,11 @@ namespace MongoDb.AdminModule.Tests
             Assert.Equal("unit_test_claim2", second.Name);
             Assert.Equal("Sample description", second.Description);
             Assert.False(second.AlwaysIncludeInIdToken);
-
+            Assert.True(scope.AllowUnrestrictedIntrospection);
+            Assert.Equal(new List<Secret> {
+                new Secret("secret1"),
+                new Secret("secret2", "description", new DateTimeOffset(2000, 1, 1, 1, 1, 1, 1, TimeSpan.Zero)) {Type = "SomeOtherType"} }.Select(TestData.ToTestableString), 
+                scope.ScopeSecrets.Select(TestData.ToTestableString));
         }
 
         public AddScope(PowershellAdminModuleFixture data)
